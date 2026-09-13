@@ -1,0 +1,5 @@
+# Local notebook runtime dependencies, logs, and validation scratch files.
+.bindcraft-local/
+notebooks/.ipynb_checkpoints/
+params/
+results/
