@@ -45,28 +45,44 @@ echo -e "CUDA: $cuda"
 SECONDS=0
 
 # set paths needed for installation and check for conda installation
-# Store the environment in your persistent project directory
+# # Store the environment in your persistent project directory
+# ENV_PREFIX="/projectnb/dunlop/fereshteh/.conda/envs/BindCraft"
+
+# echo "Creating BindCraft environment at $ENV_PREFIX"
+# mkdir -p "$(dirname "$ENV_PREFIX")" || exit 1
+
+# "$pkg_manager" create --prefix "$ENV_PREFIX" python=3.10 -y || {
+#     echo "Error: Failed to create BindCraft environment."
+#     exit 1
+# }
+
+# # Initialize Conda and activate the environment by its full path
+# source "${CONDA_BASE}/etc/profile.d/conda.sh" || exit 1
+# conda activate "$ENV_PREFIX" || exit 1
+
+# [ "$CONDA_PREFIX" = "$ENV_PREFIX" ] || {
+#     echo "Error: The expected BindCraft environment is not active."
+#     exit 1
+# }
+
+# echo "BindCraft environment activated at $CONDA_PREFIX"
+# echo -e "BindCraft environment activated at ${CONDA_BASE}/envs/BindCraft"
+
+# Locate this repository and initialize Conda
+install_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CONDA_BASE="$(conda info --base)" || exit 1
+
 ENV_PREFIX="/projectnb/dunlop/fereshteh/.conda/envs/BindCraft"
 
-echo "Creating BindCraft environment at $ENV_PREFIX"
-mkdir -p "$(dirname "$ENV_PREFIX")" || exit 1
-
-"$pkg_manager" create --prefix "$ENV_PREFIX" python=3.10 -y || {
-    echo "Error: Failed to create BindCraft environment."
-    exit 1
-}
-
-# Initialize Conda and activate the environment by its full path
 source "${CONDA_BASE}/etc/profile.d/conda.sh" || exit 1
 conda activate "$ENV_PREFIX" || exit 1
 
 [ "$CONDA_PREFIX" = "$ENV_PREFIX" ] || {
-    echo "Error: The expected BindCraft environment is not active."
+    echo "Error: Incorrect environment activated."
     exit 1
 }
 
-echo "BindCraft environment activated at $CONDA_PREFIX"
-echo -e "BindCraft environment activated at ${CONDA_BASE}/envs/BindCraft"
+echo "Installing into $CONDA_PREFIX"
 
 # install required conda packages
 echo -e "Instaling conda requirements\n"
